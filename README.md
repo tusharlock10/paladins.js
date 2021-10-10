@@ -10,6 +10,10 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 - Updated champion enums to include `Saati` as per Nightfall patch
 - Added fire emoji for clickbaits
 
+# Changelog
+
+- v2.4.9 - fixed Ranked Tier types in api response
+
 ## Install
 
 ```
