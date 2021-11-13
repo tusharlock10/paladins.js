@@ -605,7 +605,7 @@ export type GetPlayerIDByName = PlayerIDByName;
 export type GetPlayerRelationships = PlayerRelationship[];
 export type GetPlayerLoadouts = PlayerLoadout[];
 export type GetPlayerStatus = PlayerStatus;
-export type GetPlayerMatchHistory = PlayerMatchHistory;
+export type GetPlayerMatchHistory = PlayerMatchHistory[];
 export type GetPlayerQueueStats = PlayerQueueStat[];
 export type GetMatchModeDetailsBatch = {
   // key is the matchId

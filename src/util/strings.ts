@@ -38,6 +38,7 @@ export type Champions =
   | "Androxus"
   | "Ash"
   | "Atlas"
+  | "Azaan"
   | "Barik"
   | "BombKing"
   | "Buck"

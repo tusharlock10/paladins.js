@@ -1,22 +1,21 @@
 import axios from 'axios';
+import fs from 'fs';
 import md5 from 'md5';
 import moment from 'moment';
 import * as path from 'path';
-import fs from 'promise-fs';
 import { NotFoundError, PrivateProfileError, UnauthorizedDeveloper } from './errors';
 import * as ApiResponse from './util/apiResponse';
-import { DefaultOptions, DefaultSessionCache } from './util/constants';
+import { DefaultOptions, DefaultSessionCache, IOptions } from './util/constants';
 import { Portals } from './util/enumerations';
-import Util from './util/util';
 
 export class API {
     /** @ignore */
     private serviceUrl: string = 'https://api.paladins.com/paladinsapi.svc';
     /** @ignore */
-    private sessionCache: { [key: string]: any } = {};
+    private sessionCache: { [key: string]: any; } = {};
 
-    constructor(/** @ignore */private options: { [key: string]: any } = {}) {
-        this.options = Util.mergeDefaults(DefaultOptions, options);
+    constructor(/** @ignore */private options: IOptions) {
+        this.options = { ...DefaultOptions, ...options };
 
         this.setupModule();
     }
@@ -40,20 +39,20 @@ export class API {
      * @returns {Promise<ApiResponse.GetMatchIDSByQueue>}
      * @memberof API
      */
-    public async getMatchIdsByQueue(hour: string, date: any, queue: number) {
+    public async getMatchIdsByQueue(hour: string, date: string, queue: number) {
         const session = await this.getSession();
-        const url = `${this.getServiceUrl()}/getmatchidsbyqueueJson/${this.options['devId']}/${this.getSignature('getmatchidsbyqueue')}/${session}/${this.getTimestamp()}/${queue}/${date}/${hour}`
+        const url = `${this.getServiceUrl()}/getmatchidsbyqueueJson/${this.options['devId']}/${this.getSignature('getmatchidsbyqueue')}/${session}/${this.getTimestamp()}/${queue}/${date}/${hour}`;
 
         try {
-            const { data } = await axios.get<ApiResponse.GetMatchIDSByQueue>(url)
+            const { data } = await axios.get<ApiResponse.GetMatchIDSByQueue>(url);
             if (data.length > 0 && data[0]['ret_msg'] != null && data[0]['ret_msg'].toLowerCase() == 'invalid session id.') {
                 this.setSession();
-                this.getMatchIdsByQueue(hour, date, queue)
+                this.getMatchIdsByQueue(hour, date, queue);
             }
-            return data
+            return data;
 
         } catch (err) {
-            return Promise.reject(err)
+            return Promise.reject(err);
         }
     }
 
@@ -107,8 +106,8 @@ export class API {
      * @memberof API
      */
     public async getPlayer(playerId: number): Promise<ApiResponse.GetPlayer> {
-        const data = await this.endpoint<ApiResponse.GetPlayer[]>('getplayer', [playerId])
-        const player = data[0]
+        const data = await this.endpoint<ApiResponse.GetPlayer[]>('getplayer', [playerId]);
+        const player = data[0];
         if (!player) {
             return Promise.reject(new NotFoundError('No profiles were found with the given criteria.'));
         }
@@ -117,7 +116,7 @@ export class API {
             return Promise.reject(new PrivateProfileError('Player profile is currently set to private.'));
         }
 
-        return player
+        return player;
 
 
     }
@@ -132,55 +131,6 @@ export class API {
     public getPlayerBatch(playerIds: number[]) {
         // TODO: Remove those with 0 in this.
         return this.endpoint<ApiResponse.GetPlayerBatch>('getplayerbatch', [playerIds.join(',')]);
-    }
-
-    /**
-     * Get an array of players with the requested name.
-     * 
-     * Will be removed in future releases. Please use {@link API.searchPlayers} for searching.
-     *
-     * @deprecated
-     * @param {string} name
-     * @returns {Promise<ApiResponse.GetPlayerIDByName>}
-     * @memberof API
-     */
-    public getPlayerIdByName(name: string): Promise<ApiResponse.GetPlayerIDByName> {
-        return this.endpoint<ApiResponse.GetPlayerIDByName>('getplayeridbyname', [name]);
-    }
-
-    /**
-     * Get a player from PC or PSN. Does not work with Xbox or Switch.
-     *
-     * @param {string} name
-     * @param {number} platform
-     * @returns {Promise<any>}
-     * @memberof API
-     */
-    public getPlayerIdByPortalUserId(name: string, platform: number): Promise<any> {
-        return this.endpoint<any>('getplayeridbyportaluserid', [name, null, null, null, null, null, null, platform]);
-    }
-
-    /**
-     * Get player ids by the gamertag.
-     *
-     * @param {string} name
-     * @param {number} platform
-     * @returns {Promise<any>}
-     * @memberof API
-     */
-    public getPlayerIdsByGamertag(name: string, platform: number): Promise<any> {
-        return this.endpoint<any>('getplayeridsbygamertag', [name, null, null, null, null, null, null, platform]);
-    }
-
-    /**
-     * Get player id info for Xbox and Switch.
-     *
-     * @param {string} name
-     * @returns {Promise<any>}
-     * @memberof API
-     */
-    public getPlayerIdInfoForXboxAndSwitch(name: string): Promise<any> {
-        return this.endpoint<any>('getplayeridinfoforxboxandswitch', [name])
     }
 
     /**
@@ -259,8 +209,8 @@ export class API {
      */
     public async getMatchModeDetailsBatch(matchIds: number[]): Promise<ApiResponse.GetMatchModeDetailsBatch> {
         try {
-            const data = await this.endpoint<any>('getmatchdetailsbatch', [matchIds.join(',')])
-            let sorted: { [key: string]: any[] } = {}
+            const data = await this.endpoint<any>('getmatchdetailsbatch', [matchIds.join(',')]);
+            let sorted: { [key: string]: any[]; } = {};
 
             data.forEach((matchPlayer: any) => {
                 if (sorted[matchPlayer['Match']]) {
@@ -271,7 +221,7 @@ export class API {
                 }
             });
 
-            return sorted
+            return sorted;
         }
         catch (err) {
             return Promise.reject(err);
@@ -318,14 +268,14 @@ export class API {
      */
     public async getDataUsage(): Promise<ApiResponse.GetDataUsage> {
         try {
-            const data: any = await this.endpoint('getdataused', [], true);
-            if (data[0]) {
-                return data[0] as ApiResponse.GetDataUsage
+            const data: ApiResponse.GetDataUsage | ApiResponse.GetDataUsage[] = await this.endpoint('getdataused', [], true);
+            if (data.constructor === Array) {
+                return data[0] as ApiResponse.GetDataUsage;
             } else {
-                return data as ApiResponse.GetDataUsage
+                return data as ApiResponse.GetDataUsage;
             }
         } catch (err) {
-            return Promise.reject(err)
+            return Promise.reject(err);
         }
     }
 
@@ -338,13 +288,13 @@ export class API {
      */
     public async searchPlayers(name: string) {
         try {
-            const data = await this.endpoint<ApiResponse.SearchPlayers>('searchplayers', [name])
+            const data = await this.endpoint<ApiResponse.SearchPlayers>('searchplayers', [name]);
             data.forEach((player: any) => {
                 player['portal_name'] = Portals[player['portal_id']];
             });
-            return data
+            return data;
         } catch (err) {
-            return Promise.reject(err)
+            return Promise.reject(err);
         }
     }
 
@@ -354,17 +304,17 @@ export class API {
         let url = await this.buildUrl.apply(this, fArgs);
 
         try {
-            const { data } = await axios.get(url)
+            const { data } = await axios.get(url);
             if (data.length > 0 && data[0]['ret_msg'] != null && data[0]['ret_msg'].toLowerCase() == 'invalid session id.') {
                 await this.setSession();
-                return this.endpoint(endpoint, args)
+                return this.endpoint(endpoint, args);
             }
             if (returnFirstElement && data.length > 0) {
-                return data[0]
+                return data[0];
             }
-            return data
+            return data;
         } catch (err) {
-            return Promise.reject(err)
+            return Promise.reject(err);
         }
 
     }
@@ -376,14 +326,14 @@ export class API {
 
     /** @ignore */
     private getSignature(method: string) {
-        return md5(`${this.options['devId']}${method}${this.options['authKey']}${this.getTimestamp()}`)
+        return md5(`${this.options['devId']}${method}${this.options['authKey']}${this.getTimestamp()}`);
     }
 
     /** @ignore */
     private async setSession(): Promise<string> {
-        const url = `${this.getServiceUrl()}/createsessionJson/${this.options['devId']}/${this.getSignature('createsession')}/${this.getTimestamp()}`
-        const response = await axios.get(url)
-        let body = response.data
+        const url = `${this.getServiceUrl()}/createsessionJson/${this.options['devId']}/${this.getSignature('createsession')}/${this.getTimestamp()}`;
+        const response = await axios.get(url);
+        let body = response.data;
 
         if (body['ret_msg'].indexOf('Exception while validating developer access') > -1) {
             throw new UnauthorizedDeveloper('Invalid developer id/auth key.');
@@ -459,9 +409,10 @@ export class API {
         try {
             let data = fs.readFileSync(path.resolve(__dirname, 'cache', 'session.json'));
             this.sessionCache = JSON.parse(data.toString());
-        } catch (err) {
+        } catch (e) {
+            const err = e as any;
             if (err.code == 'ENOENT') {
-                fs.mkdirSync(path.resolve(__dirname, 'cache'), { recursive: true })
+                fs.mkdirSync(path.resolve(__dirname, 'cache'), { recursive: true });
                 fs.writeFileSync(path.resolve(__dirname, 'cache', 'session.json'), JSON.stringify(DefaultSessionCache));
                 return;
             }
