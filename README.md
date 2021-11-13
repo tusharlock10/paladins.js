@@ -14,7 +14,7 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
-v3.0.1
+v3.0.2
 - Added champion Azaan
 - Removed deprecated api getPlayerIdByName
 - Removed redundant apis getPlayerIdByPortalUserId, getPlayerIdsByGamertag, getPlayerIdInfoForXboxAndSwitch

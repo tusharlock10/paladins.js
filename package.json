@@ -1,6 +1,6 @@
 {
   "name": "pe-paladins.js",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A strongly typed fork of paladins.js, used by Paladins Edge",
   "keywords": [
     "paladins",
@@ -13,7 +13,7 @@
   "main": "lib/paladins.js",
   "types": "lib/paladins.d.ts",
   "scripts": {
-    "compile": "tsc --build --clean",
+    "compile": "tsc",
     "docs": "node_modules/.bin/typedoc --options ./typedoc.json",
     "prepublish": "npm run compile",
     "test": "cross-env TS_NODE_FILES=true mocha -r ts-node/register ./test/*.ts --timeout 20000"
