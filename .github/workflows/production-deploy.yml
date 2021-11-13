@@ -21,12 +21,14 @@ jobs:
       - name: Build docker image
         run: npm run test
 
-  deploy-prod:
+  deploy-test:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
       - name: Publish package to npm
         uses: JS-DevTools/npm-publish@v1
         with:
