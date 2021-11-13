@@ -1,14 +1,25 @@
 # pe-paladins.js 🔥
 
-![NPM License](https://img.shields.io/npm/l/pe-paladins.js.svg?style=flat) ![Downloads](https://img.shields.io/npm/dm/pe-paladins.js.svg?style=flat)
+![NPM License](https://img.shields.io/npm/l/pe-paladins.js.svg?style=flat) 
+![Downloads](https://img.shields.io/npm/dm/pe-paladins.js.svg?style=flat)
+[![Production Test & Deploy](https://github.com/tusharlock10/pe-paladins.js/actions/workflows/production-deploy.yml/badge.svg)](https://github.com/tusharlock10/pe-paladins.js/actions/workflows/production-deploy.yml)
 
 A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js), used by [Paladins Edge](https://paladinsedge.ml)
 
-- Based on the latest version of paladins.js (v2.2.2)
+- Well maintained and up-to-date library
 - All of the methods have the exact response type
 - Removed the deprecated `request` library for `axios`
-- Updated champion enums to include `Saati` as per Nightfall patch
+- Updated champion enums to include `Azaan` as per `Absolution` patch
 - Added fire emoji for clickbaits
+
+## Changelog
+
+v3.0.1
+- Added champion Azaan
+- Removed deprecated api getPlayerIdByName
+- Removed redundant apis getPlayerIdByPortalUserId, getPlayerIdsByGamertag, getPlayerIdInfoForXboxAndSwitch
+- Fixed GetPlayerMatchHistory ApiResponse type
+
 
 ## Install
 

@@ -1,0 +1,33 @@
+name: Production Test & Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PALADINS_DEV_ID: ${{ secrets.PALADINS_DEV_ID }}
+  PALADINS_API_KEY: ${{ secrets.PALADINS_API_KEY }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+      - name: Build docker image
+        run: npm run test
+
+  deploy-prod:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Publish package to npm
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ env.NPM_TOKEN }}

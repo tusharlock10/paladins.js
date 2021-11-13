@@ -82,6 +82,7 @@ export enum Champions {
     Androxus = 2205,
     Ash = 2404,
     Atlas = 2512,
+    Azaan = 2548,
     Barik = 2073,
     BombKing = 2281,
     Buck = 2147,

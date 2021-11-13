@@ -1,4 +1,4 @@
-import { PORTALS, QUEUE } from './data';
+import { PORTALS, QUEUE, RANKS } from "./data";
 import { ProfileStates } from "./enumerations";
 import * as Strings from "./strings";
 
@@ -103,12 +103,12 @@ interface ChampionCard {
 
 enum ActiveFlag {
   Y = "y",
-  N = "n"
+  N = "n",
 }
 
 enum Exclusive {
   Y = "y",
-  N = "n"
+  N = "n",
 }
 
 enum Rarity {
@@ -204,9 +204,9 @@ interface Player {
   Region: string;
   TeamId: number;
   Team_Name: string;
-  Tier_Conquest: number;
-  Tier_RankedController: number;
-  Tier_RankedKBM: number;
+  Tier_Conquest: keyof typeof RANKS;
+  Tier_RankedController: keyof typeof RANKS;
+  Tier_RankedKBM: keyof typeof RANKS;
   Title: string;
   Total_Achievements: number;
   Total_Worshippers: number;
@@ -225,7 +225,7 @@ interface Ranked {
   PrevRank: number;
   Rank: number;
   Season: number;
-  Tier: number;
+  Tier: keyof typeof RANKS;
   Trend: number;
   Wins: number;
   player_id: null;
@@ -466,7 +466,7 @@ interface MatchModePlayerDetail {
   Kills_Wild_Juggernaut: number;
   League_Losses: number;
   League_Points: number;
-  League_Tier: number;
+  League_Tier: keyof typeof RANKS;
   League_Wins: number;
   Map_Game: string;
   Mastery_Level: number;
@@ -502,7 +502,7 @@ interface MatchModePlayerDetail {
   name: string;
   playerId: string;
   playerName: string;
-  playerPortalId: keyof (typeof PORTALS);
+  playerPortalId: keyof typeof PORTALS;
   playerPortalUserId: null | string;
   ret_msg: string | null;
 }
@@ -531,15 +531,15 @@ interface ActiveMatchDetail {
   ChampionName: string;
   Mastery_Level: number;
   Match: number;
-  Queue: keyof (typeof QUEUE);
+  Queue: keyof typeof QUEUE;
   Skin?: string;
   SkinId?: number;
-  Tier: number;
+  Tier: keyof typeof RANKS;
   mapGame?: string;
   playerCreated?: string;
   playerId: number;
   playerName: string;
-  playerPortalId: keyof (typeof PORTALS);
+  playerPortalId: keyof typeof PORTALS;
   playerPortalUserId: null | string;
   playerRegion?: string;
   ret_msg: string;
@@ -593,26 +593,26 @@ interface SearchPlayer {
   portal_name: string;
 }
 
-export type GetChampions = Champion[]
-export type GetChampionCards = ChampionCard[]
-export type GetPlayerChampionRanks = PlayerChampionRank[]
-export type GetMatchIDSByQueue = MatchIDByQueue[]
-export type GetChampionSkins = ChampionSkin[]
-export type GetItems = Item[]
-export type GetPlayer = Player
-export type GetPlayerBatch = Player[]
-export type GetPlayerIDByName = PlayerIDByName
-export type GetPlayerRelationships = PlayerRelationship[]
-export type GetPlayerLoadouts = PlayerLoadout[]
-export type GetPlayerStatus = PlayerStatus
-export type GetPlayerMatchHistory = PlayerMatchHistory
+export type GetChampions = Champion[];
+export type GetChampionCards = ChampionCard[];
+export type GetPlayerChampionRanks = PlayerChampionRank[];
+export type GetMatchIDSByQueue = MatchIDByQueue[];
+export type GetChampionSkins = ChampionSkin[];
+export type GetItems = Item[];
+export type GetPlayer = Player;
+export type GetPlayerBatch = Player[];
+export type GetPlayerIDByName = PlayerIDByName;
+export type GetPlayerRelationships = PlayerRelationship[];
+export type GetPlayerLoadouts = PlayerLoadout[];
+export type GetPlayerStatus = PlayerStatus;
+export type GetPlayerMatchHistory = PlayerMatchHistory[];
 export type GetPlayerQueueStats = PlayerQueueStat[];
 export type GetMatchModeDetailsBatch = {
   // key is the matchId
-  [key: string]: MatchModePlayerDetail[]
-}
-export type GetMatchDetails = MatchModePlayerDetail[]
-export type GetActiveMatchDetails = ActiveMatchDetail[]
-export type GetBountyItems = BountyItem[]
-export type GetDataUsage = DataUsage
-export type SearchPlayers = SearchPlayer[]
+  [key: string]: MatchModePlayerDetail[];
+};
+export type GetMatchDetails = MatchModePlayerDetail[];
+export type GetActiveMatchDetails = ActiveMatchDetail[];
+export type GetBountyItems = BountyItem[];
+export type GetDataUsage = DataUsage;
+export type SearchPlayers = SearchPlayer[];

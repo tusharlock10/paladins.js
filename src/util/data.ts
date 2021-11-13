@@ -92,6 +92,7 @@ export const CHAMPIONS: ChampionsObject = {
   "2205": "Androxus",
   "2404": "Ash",
   "2512": "Atlas",
+  "2548": "Azaan",
   "2073": "Barik",
   "2281": "BombKing",
   "2147": "Buck",
