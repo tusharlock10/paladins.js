@@ -13,7 +13,7 @@
   "main": "lib/paladins.js",
   "types": "lib/paladins.d.ts",
   "scripts": {
-    "compile": "tsc --build --clean",
+    "compile": "tsc",
     "docs": "node_modules/.bin/typedoc --options ./typedoc.json",
     "prepublish": "npm run compile",
     "test": "cross-env TS_NODE_FILES=true mocha -r ts-node/register ./test/*.ts --timeout 20000"
