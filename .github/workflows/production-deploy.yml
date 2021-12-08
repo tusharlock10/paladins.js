@@ -12,6 +12,7 @@ env:
 
 jobs:
   test:
+    name: "test 🧪"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,7 +22,8 @@ jobs:
       - name: Build docker image
         run: npm run test
 
-  deploy-test:
+  deploy:
+    name: "deploy 🚀"
     needs: test
     runs-on: ubuntu-latest
     steps:
