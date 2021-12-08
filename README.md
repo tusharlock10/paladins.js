@@ -17,10 +17,11 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 - *BREAKING CHANGE*: removed error handling from `getPlayer` api
 - *BREAKING CHANGE*: removed custom errors from the api
 - *BREAKING CHANGE*: removed `getMatchModeDetailsBatch` api due to its inappropriate name
-- Removed unnecessary interfaces from ApiResponses
 - Added `getMatchDetailsBatch` api which gives response similar to `getMatchDetails`
 - Added `GetMatchDetailsBatch` interface in `ApiResponses`
+- Removed unnecessary interfaces from ApiResponses
 - Removed unnecessary documentation for `@params` and `@return`
+- Removed usage of `fs` module for caching sessions. This library can be used in froned-end as well 
 - Removed fire emoji from README.md
 
 
