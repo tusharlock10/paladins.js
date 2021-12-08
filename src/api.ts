@@ -3,7 +3,6 @@ import fs from 'fs';
 import md5 from 'md5';
 import moment from 'moment';
 import * as path from 'path';
-import { NotFoundError, PrivateProfileError, UnauthorizedDeveloper } from './errors';
 import * as ApiResponse from './util/apiResponse';
 import { DefaultOptions, DefaultSessionCache, IOptions } from './util/constants';
 import { Portals } from './util/enumerations';
@@ -105,20 +104,11 @@ export class API {
      * @returns {Promise<ApiResponse.GetPlayer>}
      * @memberof API
      */
-    public async getPlayer(playerId: number): Promise<ApiResponse.GetPlayer> {
+    public async getPlayer(playerId: number): Promise<ApiResponse.GetPlayer | null> {
         const data = await this.endpoint<ApiResponse.GetPlayer[]>('getplayer', [playerId]);
         const player = data[0];
-        if (!player) {
-            return Promise.reject(new NotFoundError('No profiles were found with the given criteria.'));
-        }
-
-        if (player['ret_msg'] && player['ret_msg'].toLowerCase().indexOf('player privacy flag') > -1) {
-            return Promise.reject(new PrivateProfileError('Player profile is currently set to private.'));
-        }
-
+        if (!player) return null;
         return player;
-
-
     }
 
     /**
@@ -129,7 +119,6 @@ export class API {
      * @memberof API
      */
     public getPlayerBatch(playerIds: number[]) {
-        // TODO: Remove those with 0 in this.
         return this.endpoint<ApiResponse.GetPlayerBatch>('getplayerbatch', [playerIds.join(',')]);
     }
 
@@ -336,7 +325,7 @@ export class API {
         let body = response.data;
 
         if (body['ret_msg'].indexOf('Exception while validating developer access') > -1) {
-            throw new UnauthorizedDeveloper('Invalid developer id/auth key.');
+            throw new Error('Invalid developer id/auth key.');
         }
 
         this.sessionCache = {

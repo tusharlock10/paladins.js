@@ -12,6 +12,7 @@ env:
 
 jobs:
   test:
+    name: "test 🧪"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,7 +22,8 @@ jobs:
       - name: Build docker image
         run: npm run test
 
-  deploy-test:
+  deploy:
+    name: "deploy 🚀"
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -33,3 +35,25 @@ jobs:
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ env.NPM_TOKEN }}
+
+  create-release:
+    needs: deploy
+    name: "create release 📦"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get version from package.json
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          custom_tag: ${{ steps.package-version.outputs.current-version}}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          bodyFile: CHANGELOG.md

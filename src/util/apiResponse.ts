@@ -2,6 +2,10 @@ import { PORTALS, QUEUE, RANKS } from "./data";
 import { ProfileStates } from "./enumerations";
 import * as Strings from "./strings";
 
+enum ActiveFlag {
+  Y = "y",
+  N = "n",
+}
 interface Champion {
   Ability1: string;
   Ability2: string;
@@ -44,7 +48,7 @@ interface Champion {
   abilityDescription4: string;
   abilityDescription5: string;
   id: number;
-  latestChampion: LatestChampion;
+  latestChampion: ActiveFlag;
   ret_msg: string | null;
 }
 
@@ -76,11 +80,6 @@ enum Roles {
   PaladinsSupport = "Paladins Support",
 }
 
-enum LatestChampion {
-  N = "n",
-  Y = "y",
-}
-
 interface ChampionCard {
   active_flag_activation_schedule: ActiveFlag;
   active_flag_lti: ActiveFlag;
@@ -94,21 +93,11 @@ interface ChampionCard {
   championTalent_URL: null | string;
   champion_id: number;
   champion_name: string;
-  exclusive: Exclusive;
+  exclusive: ActiveFlag;
   rank: number;
   rarity: Rarity;
   recharge_seconds: number;
   ret_msg: string | null;
-}
-
-enum ActiveFlag {
-  Y = "y",
-  N = "n",
-}
-
-enum Exclusive {
-  Y = "y",
-  N = "n",
 }
 
 enum Rarity {
@@ -495,7 +484,7 @@ interface MatchModePlayerDetail {
   Wards_Placed: number;
   Win_Status: WinStatus;
   Winning_TaskForce: number;
-  hasReplay: HasReplay;
+  hasReplay: ActiveFlag;
   hz_gamer_tag: null;
   hz_player_name: null;
   match_queue_id: number;
@@ -516,11 +505,6 @@ interface MergedPlayer {
 enum WinStatus {
   Loser = "Loser",
   Winner = "Winner",
-}
-
-enum HasReplay {
-  Y = "y",
-  N = "n",
 }
 
 interface ActiveMatchDetail {
@@ -549,7 +533,7 @@ interface ActiveMatchDetail {
 }
 
 interface BountyItem {
-  active: Active;
+  active: ActiveFlag;
   bounty_item_id1: number;
   bounty_item_id2: number;
   bounty_item_name: string;
@@ -560,11 +544,6 @@ interface BountyItem {
   ret_msg: string | null;
   sale_end_datetime: string;
   sale_type: SaleType;
-}
-
-enum Active {
-  Y = "y",
-  N = "n",
 }
 
 enum SaleType {

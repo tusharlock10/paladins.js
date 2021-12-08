@@ -1,4 +1,4 @@
-# pe-paladins.js 🔥
+# pe-paladins.js
 
 ![NPM License](https://img.shields.io/npm/l/pe-paladins.js.svg?style=flat) 
 ![Downloads](https://img.shields.io/npm/dm/pe-paladins.js.svg?style=flat)
@@ -10,15 +10,16 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 - All of the methods have the exact response type
 - Removed the deprecated `request` library for `axios`
 - Updated champion enums to include `Azaan` as per `Absolution` patch
-- Added fire emoji for clickbaits
 
 ## Changelog
 
-v3.0.2
-- Added champion Azaan
-- Removed deprecated api getPlayerIdByName
-- Removed redundant apis getPlayerIdByPortalUserId, getPlayerIdsByGamertag, getPlayerIdInfoForXboxAndSwitch
-- Fixed GetPlayerMatchHistory ApiResponse type
+v3.1.0
+- *BREAKING CHANGE*: removed error handling from getPlayer api
+- *BREAKING CHANGE*: removed custom errors from the api
+- Removed unnecessary interfaces from ApiResponses
+- Removed fire emoji from README.md
+
+Reason for removal of error handling - pe-paladins.js is an intermediary between your application and paladins api. Its up-to the application to handle the error correctly on its own. This api should provide the response directly from paladins api with minimal processing. 
 
 
 ## Install
@@ -31,22 +32,21 @@ $ npm install pe-paladins.js
 
 ### TypeScript
 
-```javascript
-import { API } from "pe-paladins.js";
+```typescript
+import { API, ApiResponse } from "pe-paladins.js";
 
 let api = new API({
   devId: "1234",
   authKey: "abcd1234",
 }); // API loaded and ready to go.
 
-api
-  .getDataUsage()
-  .then((response: any) => {
-    // Do something with response
-  })
-  .catch((err: any) => {
-    // Handle the error
-  });
+let response: ApiResponse.GetDataUsage
+try {
+  response = api.getDataUsage()
+  // Do something with response
+} catch(error) {
+  // Handle the error
+}
 ```
 
 ### JavaScript
@@ -61,10 +61,10 @@ let api = new API({
 
 api
   .getDataUsage()
-  .then((response: any) => {
+  .then((response) => {
     // Do something with response
   })
-  .catch((err: any) => {
+  .catch((err) => {
     // Handle the error
   });
 ```
