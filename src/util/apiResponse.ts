@@ -377,7 +377,7 @@ interface PlayerQueueStat {
   ret_msg: string | null;
 }
 
-interface MatchModePlayerDetail {
+interface MatchPlayerDetail {
   Account_Level: number;
   ActiveId1: number;
   ActiveId2: number;
@@ -569,7 +569,12 @@ interface SearchPlayer {
   portal_id: string;
   privacy_flag: string;
   ret_msg: string | null;
-  portal_name: string;
+}
+
+interface RequestsInfo {
+  requestsMade: number;
+  requestsLeft: number;
+  totalRequests: number;
 }
 
 export type GetChampions = Champion[];
@@ -586,12 +591,10 @@ export type GetPlayerLoadouts = PlayerLoadout[];
 export type GetPlayerStatus = PlayerStatus;
 export type GetPlayerMatchHistory = PlayerMatchHistory[];
 export type GetPlayerQueueStats = PlayerQueueStat[];
-export type GetMatchModeDetailsBatch = {
-  // key is the matchId
-  [key: string]: MatchModePlayerDetail[];
-};
-export type GetMatchDetails = MatchModePlayerDetail[];
+export type GetMatchDetailsBatch = MatchPlayerDetail[];
+export type GetMatchDetails = MatchPlayerDetail[];
 export type GetActiveMatchDetails = ActiveMatchDetail[];
 export type GetBountyItems = BountyItem[];
 export type GetDataUsage = DataUsage;
 export type SearchPlayers = SearchPlayer[];
+export type GetRequestsInfo = RequestsInfo;

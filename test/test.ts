@@ -5,6 +5,7 @@ import { testData } from './data';
 const { PALADINS_DEV_ID, PALADINS_API_KEY } = process.env;
 
 let api: API;
+let requestsMadeInitially: number = 0;
 
 const expect = chai.expect;
 
@@ -18,6 +19,15 @@ describe('Tests for pe-paladins.js apis', () => {
       devId: PALADINS_DEV_ID as string,
       authKey: PALADINS_API_KEY as string,
     });
+  });
+  it("Test getDataUsage", async () => {
+    const response = await api.getDataUsage();
+    expect(response).to.be.a("object");
+    expect(response).to.have.property("Total_Requests_Today");
+    expect(response.Total_Requests_Today).to.have.be.a("number");
+    expect(response.ret_msg).to.be.equal(null);
+
+    requestsMadeInitially = response.Total_Requests_Today;
   });
   it("Test getChampionCards", async () => {
     const response = await api.getChampionCards(testData.getChampionCards);
@@ -87,9 +97,9 @@ describe('Tests for pe-paladins.js apis', () => {
     expect(response).to.be.a("array");
     expect(response).to.not.have.length.lessThanOrEqual(0);
   });
-  it("Test getMatchModeDetailsBatch", async () => {
-    const response = await api.getMatchModeDetailsBatch(testData.getMatchModeDetailsBatch);
-    expect(response).to.be.a("object");
+  it("Test getMatchDetailsBatch", async () => {
+    const response = await api.getMatchDetailsBatch(testData.getMatchModeDetailsBatch);
+    expect(response).to.be.a("array");
   });
   it("Test getMatchDetails", async () => {
     const response = await api.getMatchDetails(testData.getMatchDetails);
@@ -106,16 +116,15 @@ describe('Tests for pe-paladins.js apis', () => {
     expect(response).to.be.a("array");
     expect(response).to.not.have.length.lessThanOrEqual(0);
   });
-  it("Test getDataUsage", async () => {
-    const response = await api.getDataUsage();
-    expect(response).to.be.a("object");
-    expect(response).to.have.property("Total_Requests_Today");
-    expect(response.Total_Requests_Today).to.have.be.a("number");
-    expect(response.ret_msg).to.be.equal(null);
-  });
   it("Test searchPlayers", async () => {
     const response = await api.searchPlayers(testData.searchPlayers);
     expect(response).to.be.a("array");
     expect(response).to.not.have.length.lessThanOrEqual(0);
+  });
+  it("Test getRequestsInfo", async () => {
+    const response = await api.getRequestsInfo();
+    expect(response.requestsLeft).to.be.a("number");
+    expect(response.requestsMade).to.be.a("number");
+    expect(response.requestsMade).to.be.equal(requestsMadeInitially + 18);
   });
 });
