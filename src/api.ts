@@ -12,11 +12,39 @@ export class API {
     private serviceUrl: string = 'https://api.paladins.com/paladinsapi.svc';
     /** @ignore */
     private sessionCache: { [key: string]: any; } = {};
+    /** @ignore */
+    private totalRequestsMade: number | null = null;
+    /** @ignore */
+    private totalRequests: number | null = null;
 
     constructor(/** @ignore */private options: IOptions) {
         this.options = { ...DefaultOptions, ...options };
 
         this.setupModule();
+    }
+
+    /**
+     * Get the number of requests made and requests left from your 
+     * data usage this method initially makes a getDataUsage call to 
+     * paladins API internally to know your initial request count
+     * 
+     * @returns {number}
+     * @memberof API
+     */
+    public async getRequestsInfo(): Promise<ApiResponse.GetRequestsInfo> {
+        if (this.totalRequestsMade === null || this.totalRequests === null) {
+            // get data usage from paladins API
+            const response = await this.getDataUsage();
+
+            this.totalRequestsMade = response.Total_Requests_Today;
+            this.totalRequests = response.Request_Limit_Daily - this.totalRequestsMade;
+        }
+
+        return {
+            requestsMade: this.totalRequestsMade,
+            requestsLeft: this.totalRequests - this.totalRequestsMade,
+            totalRequests: this.totalRequests
+        };
     }
 
     /**
@@ -42,17 +70,10 @@ export class API {
         const session = await this.getSession();
         const url = `${this.getServiceUrl()}/getmatchidsbyqueueJson/${this.options['devId']}/${this.getSignature('getmatchidsbyqueue')}/${session}/${this.getTimestamp()}/${queue}/${date}/${hour}`;
 
-        try {
-            const { data } = await axios.get<ApiResponse.GetMatchIDSByQueue>(url);
-            if (data.length > 0 && data[0]['ret_msg'] != null && data[0]['ret_msg'].toLowerCase() == 'invalid session id.') {
-                this.setSession();
-                this.getMatchIdsByQueue(hour, date, queue);
-            }
-            return data;
+        const { data } = await axios.get<ApiResponse.GetMatchIDSByQueue>(url);
+        if (this.totalRequestsMade) this.totalRequestsMade++;
 
-        } catch (err) {
-            return Promise.reject(err);
-        }
+        return data;
     }
 
     /**
@@ -197,24 +218,19 @@ export class API {
      * @memberof API
      */
     public async getMatchModeDetailsBatch(matchIds: number[]): Promise<ApiResponse.GetMatchModeDetailsBatch> {
-        try {
-            const data = await this.endpoint<any>('getmatchdetailsbatch', [matchIds.join(',')]);
-            let sorted: { [key: string]: any[]; } = {};
+        const data = await this.endpoint<any>('getmatchdetailsbatch', [matchIds.join(',')]);
+        let sorted: { [key: string]: any[]; } = {};
 
-            data.forEach((matchPlayer: any) => {
-                if (sorted[matchPlayer['Match']]) {
-                    sorted[matchPlayer['Match']].push(matchPlayer);
-                } else {
-                    sorted[matchPlayer['Match']] = [];
-                    sorted[matchPlayer['Match']].push(matchPlayer);
-                }
-            });
+        data.forEach((matchPlayer: any) => {
+            if (sorted[matchPlayer['Match']]) {
+                sorted[matchPlayer['Match']].push(matchPlayer);
+            } else {
+                sorted[matchPlayer['Match']] = [];
+                sorted[matchPlayer['Match']].push(matchPlayer);
+            }
+        });
 
-            return sorted;
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        return sorted;
     }
 
     /**
@@ -256,16 +272,19 @@ export class API {
      * @memberof API
      */
     public async getDataUsage(): Promise<ApiResponse.GetDataUsage> {
-        try {
-            const data: ApiResponse.GetDataUsage | ApiResponse.GetDataUsage[] = await this.endpoint('getdataused', [], true);
-            if (data.constructor === Array) {
-                return data[0] as ApiResponse.GetDataUsage;
-            } else {
-                return data as ApiResponse.GetDataUsage;
-            }
-        } catch (err) {
-            return Promise.reject(err);
+        const data: ApiResponse.GetDataUsage | ApiResponse.GetDataUsage[] = await this.endpoint('getdataused', [], true);
+
+        let response: ApiResponse.GetDataUsage;
+        if (data.constructor === Array) {
+            response = data[0] as ApiResponse.GetDataUsage;
+        } else {
+            response = data as ApiResponse.GetDataUsage;
         }
+
+        this.totalRequests = response.Request_Limit_Daily;
+        this.totalRequestsMade = response.Total_Requests_Today;
+
+        return response;
     }
 
     /**
@@ -276,15 +295,11 @@ export class API {
      * @memberof API
      */
     public async searchPlayers(name: string) {
-        try {
-            const data = await this.endpoint<ApiResponse.SearchPlayers>('searchplayers', [name]);
-            data.forEach((player: any) => {
-                player['portal_name'] = Portals[player['portal_id']];
-            });
-            return data;
-        } catch (err) {
-            return Promise.reject(err);
-        }
+        const data = await this.endpoint<ApiResponse.SearchPlayers>('searchplayers', [name]);
+        data.forEach((player: any) => {
+            player['portal_name'] = Portals[player['portal_id']];
+        });
+        return data;
     }
 
     /** @ignore */
@@ -292,20 +307,17 @@ export class API {
         let fArgs = <any>[endpoint].concat(args);
         let url = await this.buildUrl.apply(this, fArgs);
 
-        try {
-            const { data } = await axios.get(url);
-            if (data.length > 0 && data[0]['ret_msg'] != null && data[0]['ret_msg'].toLowerCase() == 'invalid session id.') {
-                await this.setSession();
-                return this.endpoint(endpoint, args);
-            }
-            if (returnFirstElement && data.length > 0) {
-                return data[0];
-            }
-            return data;
-        } catch (err) {
-            return Promise.reject(err);
-        }
+        const { data } = await axios.get(url);
+        if (this.totalRequestsMade) this.totalRequestsMade++;
 
+        if (data.length > 0 && data[0]['ret_msg'] != null && data[0]['ret_msg'].toLowerCase() == 'invalid session id.') {
+            await this.setSession();
+            return this.endpoint(endpoint, args);
+        }
+        if (returnFirstElement && data.length > 0) {
+            return data[0];
+        }
+        return data;
     }
 
     /** @ignore */
@@ -321,17 +333,17 @@ export class API {
     /** @ignore */
     private async setSession(): Promise<string> {
         const url = `${this.getServiceUrl()}/createsessionJson/${this.options['devId']}/${this.getSignature('createsession')}/${this.getTimestamp()}`;
-        const response = await axios.get(url);
-        let body = response.data;
+        const { data } = await axios.get(url);
+        if (this.totalRequestsMade) this.totalRequestsMade++;
 
-        if (body['ret_msg'].indexOf('Exception while validating developer access') > -1) {
+        if (data['ret_msg'].indexOf('Exception while validating developer access') > -1) {
             throw new Error('Invalid developer id/auth key.');
         }
 
         this.sessionCache = {
-            sessionId: body['session_id'],
+            sessionId: data['session_id'],
             createdAt: this.getTimestamp(),
-            data: body
+            data
         };
 
         this.saveSessionCache();

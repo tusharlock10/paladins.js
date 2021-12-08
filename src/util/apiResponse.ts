@@ -572,6 +572,12 @@ interface SearchPlayer {
   portal_name: string;
 }
 
+interface RequestsInfo {
+  requestsMade: number;
+  requestsLeft: number;
+  totalRequests: number;
+}
+
 export type GetChampions = Champion[];
 export type GetChampionCards = ChampionCard[];
 export type GetPlayerChampionRanks = PlayerChampionRank[];
@@ -595,3 +601,4 @@ export type GetActiveMatchDetails = ActiveMatchDetail[];
 export type GetBountyItems = BountyItem[];
 export type GetDataUsage = DataUsage;
 export type SearchPlayers = SearchPlayer[];
+export type GetRequestsInfo = RequestsInfo;
