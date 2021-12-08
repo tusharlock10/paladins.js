@@ -50,9 +50,10 @@ describe('Tests for pe-paladins.js apis', () => {
   it("Test getPlayer", async () => {
     const response = await api.getPlayer(testData.getPlayer);
     expect(response).to.be.a("object");
+    expect(response).to.not.be.equal(null);
     expect(response).to.have.property("Id");
-    expect(response.Id).to.be.equal(testData.getPlayer);
-    expect(response.ret_msg).to.be.equal(null);
+    expect(response!.Id).to.be.equal(testData.getPlayer);
+    expect(response!.ret_msg).to.be.equal(null);
   });
   it("Test getPlayerBatch", async () => {
     const response = await api.getPlayerBatch(testData.getPlayerBatch);
