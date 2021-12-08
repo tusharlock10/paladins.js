@@ -1,35 +1,27 @@
 import axios from 'axios';
-import fs from 'fs';
 import md5 from 'md5';
 import moment from 'moment';
-import * as path from 'path';
 import * as ApiResponse from './util/apiResponse';
-import { DefaultOptions, DefaultSessionCache, IOptions } from './util/constants';
-import { Portals } from './util/enumerations';
 
 export class API {
-    /** @ignore */
     private serviceUrl: string = 'https://api.paladins.com/paladinsapi.svc';
-    /** @ignore */
     private sessionCache: { [key: string]: any; } = {};
-    /** @ignore */
     private totalRequestsMade: number | null = null;
-    /** @ignore */
     private totalRequests: number | null = null;
 
-    constructor(/** @ignore */private options: IOptions) {
-        this.options = { ...DefaultOptions, ...options };
-
-        this.setupModule();
+    constructor(private options: {
+        devId: string;
+        authKey: string;
+        languageId?: number;
+    }) {
+        this.options = { languageId: 1, ...options };
+        this.setSession();
     }
 
     /**
      * Get the number of requests made and requests left from your 
-     * data usage this method initially makes a getDataUsage call to 
+     * data usage this method initially makes a `getDataUsage` call to 
      * paladins API internally to know your initial request count
-     * 
-     * @returns {number}
-     * @memberof API
      */
     public async getRequestsInfo(): Promise<ApiResponse.GetRequestsInfo> {
         if (this.totalRequestsMade === null || this.totalRequests === null) {
@@ -48,27 +40,15 @@ export class API {
     }
 
     /**
-     * Get the current API service URL.
-     *
-     * @returns {string}
-     * @memberof API
-     */
-    public getServiceUrl(): string {
-        return this.serviceUrl;
-    }
-
-    /**
      * Get match ids for a queue on the given hour and date.
-     *
-     * @param {string} hour
-     * @param {*} date
-     * @param {number} queue
-     * @returns {Promise<ApiResponse.GetMatchIDSByQueue>}
-     * @memberof API
+     * 
+     * `date` in YYYYMMDD format eg. 20210207
+     * 
+     * `hour` in 24H format 0-23 eg. 4 or 12 or 23
      */
     public async getMatchIdsByQueue(hour: string, date: string, queue: number) {
         const session = await this.getSession();
-        const url = `${this.getServiceUrl()}/getmatchidsbyqueueJson/${this.options['devId']}/${this.getSignature('getmatchidsbyqueue')}/${session}/${this.getTimestamp()}/${queue}/${date}/${hour}`;
+        const url = `${this.serviceUrl}/getmatchidsbyqueueJson/${this.options['devId']}/${this.getSignature('getmatchidsbyqueue')}/${session}/${this.getTimestamp()}/${queue}/${date}/${hour}`;
 
         const { data } = await axios.get<ApiResponse.GetMatchIDSByQueue>(url);
         if (this.totalRequestsMade) this.totalRequestsMade++;
@@ -78,9 +58,6 @@ export class API {
 
     /**
      * Get all the champions currently in the game.
-     *
-     * @returns {Promise<ApiResponse.GetChampions>}
-     * @memberof API
      */
     public getChampions() {
         return this.endpoint<ApiResponse.GetChampions>('getchampions', [null, this.options['languageId']]);
@@ -88,10 +65,6 @@ export class API {
 
     /**
      * Get the cards for the requested champion.
-     *
-     * @param {number} championId
-     * @returns {Promise<ApiResponse.GetChampionCards>}
-     * @memberof API
      */
     public getChampionCards(championId: number) {
         return this.endpoint<ApiResponse.GetChampionCards>('getchampioncards', [null, this.options['languageId'], null, championId]);
@@ -99,10 +72,6 @@ export class API {
 
     /**
      * Get all the skins associated with the champion.
-     *
-     * @param {number} championId
-     * @returns {Promise<ApiResponse.GetChampionSkins>}
-     * @memberof API
      */
     public getChampionSkins(championId: number) {
         return this.endpoint<ApiResponse.GetChampionSkins>('getchampionskins', [null, this.options['languageId'], null, championId]);
@@ -110,9 +79,7 @@ export class API {
 
     /**
      * Get all the items available for purchase in the game.
-     *
-     * @returns {Promise<ApiResponse.GetItems>}
-     * @memberof API
+     * Also gets the cards and talents for all champions
      */
     public getItems() {
         return this.endpoint<ApiResponse.GetItems>('getitems', [null, this.options['languageId']]);
@@ -120,10 +87,6 @@ export class API {
 
     /**
      * Get a player and their details.
-     *
-     * @param {number} playerId
-     * @returns {Promise<ApiResponse.GetPlayer>}
-     * @memberof API
      */
     public async getPlayer(playerId: number): Promise<ApiResponse.GetPlayer | null> {
         const data = await this.endpoint<ApiResponse.GetPlayer[]>('getplayer', [playerId]);
@@ -200,45 +163,24 @@ export class API {
 
     /**
      * Get the queue stats of a player.
-     *
-     * @param {number} playerId
-     * @param {number} queueId
-     * @returns {Promise<ApiResponse.GetPlayerQueueStats>}
-     * @memberof API
      */
     public getPlayerQueueStats(playerId: number, queueId: number) {
         return this.endpoint<ApiResponse.GetPlayerQueueStats>('getqueuestats', [playerId, null, null, null, queueId]);
     }
 
     /**
-     * Get details on multiple matches
-     *
-     * @param {number[]} matchIds
-     * @returns {Promise<ApiResponse.GetMatchModeDetailsBatch>} 
-     * @memberof API
+     * Get details of multiple matches
      */
-    public async getMatchModeDetailsBatch(matchIds: number[]): Promise<ApiResponse.GetMatchModeDetailsBatch> {
-        const data = await this.endpoint<any>('getmatchdetailsbatch', [matchIds.join(',')]);
-        let sorted: { [key: string]: any[]; } = {};
-
-        data.forEach((matchPlayer: any) => {
-            if (sorted[matchPlayer['Match']]) {
-                sorted[matchPlayer['Match']].push(matchPlayer);
-            } else {
-                sorted[matchPlayer['Match']] = [];
-                sorted[matchPlayer['Match']].push(matchPlayer);
-            }
-        });
-
-        return sorted;
+    public async getMatchDetailsBatch(matchIds: number[]): Promise<ApiResponse.GetMatchDetailsBatch> {
+        return this.endpoint<ApiResponse.GetMatchDetailsBatch>('getmatchdetailsbatch', [matchIds.join(',')]);
     }
 
     /**
      * Get match details from an ended match.
-     *
-     * @param {number} matchId
-     * @returns {Promise<ApiResponse.GetMatchDetails>}
-     * @memberof API
+     * 
+     * NOTE: ids of cards, talents returned by this api
+     * are obtained from `getItems` api instead of 
+     * `getChampionCards` api
      */
     public getMatchDetails(matchId: number) {
         return this.endpoint<ApiResponse.GetMatchDetails>('getmatchdetails', [null, null, matchId]);
@@ -246,10 +188,6 @@ export class API {
 
     /**
      * Get basic info for a live, active match.
-     *
-     * @param {number} matchId
-     * @returns {Promise<ApiResponse.GetActiveMatchDetails>}
-     * @memberof API
      */
     public getActiveMatchDetails(matchId: number) {
         return this.endpoint<ApiResponse.GetActiveMatchDetails>('getmatchplayerdetails', [null, null, matchId]);
@@ -257,9 +195,6 @@ export class API {
 
     /**
      * Get all the current bounty store info.
-     * 
-     * @returns {Promise<ApiResponse.GetBountyItems>}
-     * @memberof API
      */
     public getBountyItems() {
         return this.endpoint<ApiResponse.GetBountyItems>('getbountyitems', [], false);
@@ -267,9 +202,6 @@ export class API {
 
     /**
      * Get the current data usage.
-     *
-     * @returns {Promise<ApiResponse.GetDataUsage>}
-     * @memberof API
      */
     public async getDataUsage(): Promise<ApiResponse.GetDataUsage> {
         const data: ApiResponse.GetDataUsage | ApiResponse.GetDataUsage[] = await this.endpoint('getdataused', [], true);
@@ -288,21 +220,13 @@ export class API {
     }
 
     /**
-     * Do a general player search that returns more detail information on the players.
-     *
-     * @param {string} name 
-     * @returns {Promise<ApiResponse.SearchPlayers>}
-     * @memberof API
+     * Gets the search results from the player name
      */
-    public async searchPlayers(name: string) {
-        const data = await this.endpoint<ApiResponse.SearchPlayers>('searchplayers', [name]);
-        data.forEach((player: any) => {
-            player['portal_name'] = Portals[player['portal_id']];
-        });
-        return data;
+    public searchPlayers(name: string) {
+        return this.endpoint<ApiResponse.SearchPlayers>('searchplayers', [name]);
     }
 
-    /** @ignore */
+
     private async endpoint<T>(endpoint: string, args: Array<any>, returnFirstElement: boolean = false): Promise<T> {
         let fArgs = <any>[endpoint].concat(args);
         let url = await this.buildUrl.apply(this, fArgs);
@@ -320,19 +244,19 @@ export class API {
         return data;
     }
 
-    /** @ignore */
+
     private getTimestamp() {
         return moment().utc().format('YYYYMMDDHHmmss');
     }
 
-    /** @ignore */
+
     private getSignature(method: string) {
         return md5(`${this.options['devId']}${method}${this.options['authKey']}${this.getTimestamp()}`);
     }
 
-    /** @ignore */
+
     private async setSession(): Promise<string> {
-        const url = `${this.getServiceUrl()}/createsessionJson/${this.options['devId']}/${this.getSignature('createsession')}/${this.getTimestamp()}`;
+        const url = `${this.serviceUrl}/createsessionJson/${this.options['devId']}/${this.getSignature('createsession')}/${this.getTimestamp()}`;
         const { data } = await axios.get(url);
         if (this.totalRequestsMade) this.totalRequestsMade++;
 
@@ -346,79 +270,32 @@ export class API {
             data
         };
 
-        this.saveSessionCache();
-
         return this.sessionCache['sessionId'];
     }
 
-    /** @ignore */
-    private saveSessionCache() {
-        fs.writeFileSync(path.resolve(__dirname, 'cache', 'session.json'), JSON.stringify(this.sessionCache));
-    }
 
-    /** @ignore */
     private async getSession(): Promise<string> {
-        if (this.sessionCache['sessionId'] == undefined || this.sessionCache['sessionId'] == null || this.sessionCache['sessionId'].length < 1) {
+        if (!this.sessionCache['sessionId']) {
             return await this.setSession();
         }
 
         return this.sessionCache['sessionId'];
     }
 
-    /** @ignore */
+
     private async buildUrl(method: string, player?: any, lang?: number, matchId?: number, champId?: number, queue?: number, tier?: number, season?: number, platform?: number) {
         let session = await this.getSession();
-        let baseUrl = `${this.getServiceUrl()}/${method}Json/${this.options['devId']}/${this.getSignature(method)}/${session}/${this.getTimestamp()}`;
+        let baseUrl = `${this.serviceUrl}/${method}Json/${this.options['devId']}/${this.getSignature(method)}/${session}/${this.getTimestamp()}`;
 
-        if (platform) {
-            baseUrl += `/${platform}`;
-        }
-
-        if (player) {
-            baseUrl += `/${player}`;
-        }
-
-        if (champId) {
-            baseUrl += `/${champId}`;
-        }
-
-        if (lang) {
-            baseUrl += `/${lang}`;
-        }
-
-        if (matchId) {
-            baseUrl += `/${matchId}`;
-        }
-
-        if (queue) {
-            baseUrl += `/${queue}`;
-        }
-
-        if (tier) {
-            baseUrl += `/${tier}`;
-        }
-
-        if (season) {
-            baseUrl += `/${season}`;
-        }
+        if (platform) baseUrl += `/${platform}`;
+        if (player) baseUrl += `/${player}`;
+        if (champId) baseUrl += `/${champId}`;
+        if (lang) baseUrl += `/${lang}`;
+        if (matchId) baseUrl += `/${matchId}`;
+        if (queue) baseUrl += `/${queue}`;
+        if (tier) baseUrl += `/${tier}`;
+        if (season) baseUrl += `/${season}`;
 
         return baseUrl;
-    }
-
-    /** @ignore */
-    private setupModule() {
-        try {
-            let data = fs.readFileSync(path.resolve(__dirname, 'cache', 'session.json'));
-            this.sessionCache = JSON.parse(data.toString());
-        } catch (e) {
-            const err = e as any;
-            if (err.code == 'ENOENT') {
-                fs.mkdirSync(path.resolve(__dirname, 'cache'), { recursive: true });
-                fs.writeFileSync(path.resolve(__dirname, 'cache', 'session.json'), JSON.stringify(DefaultSessionCache));
-                return;
-            }
-
-            throw new Error(err);
-        }
     }
 }

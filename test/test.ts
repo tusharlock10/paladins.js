@@ -97,9 +97,9 @@ describe('Tests for pe-paladins.js apis', () => {
     expect(response).to.be.a("array");
     expect(response).to.not.have.length.lessThanOrEqual(0);
   });
-  it("Test getMatchModeDetailsBatch", async () => {
-    const response = await api.getMatchModeDetailsBatch(testData.getMatchModeDetailsBatch);
-    expect(response).to.be.a("object");
+  it("Test getMatchDetailsBatch", async () => {
+    const response = await api.getMatchDetailsBatch(testData.getMatchModeDetailsBatch);
+    expect(response).to.be.a("array");
   });
   it("Test getMatchDetails", async () => {
     const response = await api.getMatchDetails(testData.getMatchDetails);

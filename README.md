@@ -13,13 +13,18 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
-v3.1.0
-- *BREAKING CHANGE*: removed error handling from getPlayer api
+### v3.1.1
+- *BREAKING CHANGE*: removed error handling from `getPlayer` api
 - *BREAKING CHANGE*: removed custom errors from the api
+- *BREAKING CHANGE*: removed `getMatchModeDetailsBatch` api due to its inappropriate name
 - Removed unnecessary interfaces from ApiResponses
+- Added `getMatchDetailsBatch` api which gives response similar to `getMatchDetails`
+- Added `GetMatchDetailsBatch` interface in `ApiResponses`
+- Removed unnecessary documentation for `@params` and `@return`
 - Removed fire emoji from README.md
 
-Reason for removal of error handling - pe-paladins.js is an intermediary between your application and paladins api. Its up-to the application to handle the error correctly on its own. This api should provide the response directly from paladins api with minimal processing. 
+
+>__Reason__: pe-paladins.js library is an intermediary between your application and paladins api. Its up-to the application to handle the error correctly on its own. This library should provide the response directly from paladins api with minimal processing.
 
 
 ## Install
@@ -40,12 +45,14 @@ let api = new API({
   authKey: "abcd1234",
 }); // API loaded and ready to go.
 
-let response: ApiResponse.GetDataUsage
-try {
-  response = api.getDataUsage()
-  // Do something with response
-} catch(error) {
-  // Handle the error
+const foo = async () => {
+  let response: ApiResponse.GetDataUsage
+  try {
+    response = await api.getDataUsage()
+    // Do something with response
+  } catch(error) {
+    // Handle the error
+  }
 }
 ```
 
@@ -59,14 +66,15 @@ let api = new API({
   authKey: "abcd1234",
 }); // API loaded and ready to go.
 
-api
-  .getDataUsage()
-  .then((response) => {
+const foo = async () => {
+  let response;
+  try {
+    response = await api.getDataUsage()
     // Do something with response
-  })
-  .catch((err) => {
+  } catch(error) {
     // Handle the error
-  });
+  }
+}
 ```
 
 ## Documentation / Methods
