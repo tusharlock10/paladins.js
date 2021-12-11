@@ -1,7 +1,7 @@
 import * as Enums from "../enums";
 import * as Strings from "../strings";
 
-type RanksType = Partial<Record<Enums.Ranks, Strings.Ranks>>;
+type RanksType = Record<Enums.Ranks, Strings.Ranks>;
 
 export const Ranks: RanksType = {
   0: "Qualifying",

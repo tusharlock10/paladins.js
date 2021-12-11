@@ -1,6 +1,4 @@
-import { ActiveFlag, DamageType, Roles } from '../enums';
-import { Champions } from "../strings";
-
+import { ActiveFlag, Champions, DamageType, Roles } from '../enums';
 interface Ability {
   Description: string;
   Id: number;
@@ -36,8 +34,8 @@ interface Champion {
   Cons: string;
   Health: number;
   Lore: string;
-  Name: Champions;
-  Name_English: Champions;
+  Name: string;
+  Name_English: string;
   OnFreeRotation: string;
   OnFreeWeeklyRotation: string;
   Pantheon: string;
@@ -51,7 +49,7 @@ interface Champion {
   abilityDescription3: string;
   abilityDescription4: string;
   abilityDescription5: string;
-  id: number;
+  id: Champions;
   latestChampion: ActiveFlag;
   ret_msg: string | null;
 }

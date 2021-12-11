@@ -1,5 +1,7 @@
+import { Champions } from '../enums';
+
 interface ChampionSkin {
-  champion_id: number;
+  champion_id: Champions;
   champion_name: string;
   rarity: string;
   ret_msg: string | null;

@@ -1,4 +1,4 @@
-import { WinStatus } from '../enums';
+import { Queue, WinStatus } from '../enums';
 
 interface PlayerMatchHistory {
   ActiveId1: number;
@@ -54,7 +54,7 @@ interface PlayerMatchHistory {
   Level: number;
   Map_Game: string;
   Match: number;
-  Match_Queue_Id: number;
+  Match_Queue_Id: Queue;
   Match_Time: string;
   Minutes: number;
   Multi_kill_Max: number;

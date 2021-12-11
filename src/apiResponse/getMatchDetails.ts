@@ -1,4 +1,11 @@
-import { ActiveFlag, Portals, Ranks, WinStatus } from '../enums';
+import {
+  ActiveFlag,
+  Champions,
+  Portals,
+  Queue,
+  Ranks,
+  WinStatus
+} from '../enums';
 
 interface MergedPlayer {
   merge_datetime: string;
@@ -18,16 +25,20 @@ interface MatchPlayerDetail {
   ActiveLevel4: number;
   ActivePlayerId: string;
   Assists: number;
-  BanId1: number;
-  BanId2: number;
-  BanId3: number;
-  BanId4: number;
-  Ban_1: null;
-  Ban_2: null;
-  Ban_3: null;
-  Ban_4: null;
+  BanId1: Champions,
+  BanId2: Champions,
+  BanId3: Champions,
+  BanId4: Champions,
+  BanId5: Champions,
+  BanId6: Champions,
+  Ban_1: string,
+  Ban_2: string,
+  Ban_3: string,
+  Ban_4: string,
+  Ban_5: string,
+  Ban_6: string,
   Camps_Cleared: number;
-  ChampionId: number;
+  ChampionId: Champions;
   Damage_Bot: number;
   Damage_Done_In_Hand: number;
   Damage_Done_Magical: number;
@@ -116,11 +127,11 @@ interface MatchPlayerDetail {
   hasReplay: ActiveFlag;
   hz_gamer_tag: null;
   hz_player_name: null;
-  match_queue_id: number;
+  match_queue_id: Queue;
   name: string;
   playerId: string;
   playerName: string;
-  playerPortalId: Portals;
+  playerPortalId: Portals | null;
   playerPortalUserId: string | null;
   ret_msg: string | null;
 }
