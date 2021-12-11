@@ -1,8 +1,21 @@
 import axios from 'axios';
 import md5 from 'md5';
 import moment from 'moment';
-import * as ApiResponse from './util/apiResponse';
+import * as ApiResponse from './apiResponse';
+import { Enums } from './paladins';
 
+/**
+ * API class for using Paladins APIs
+ * 
+ * usage example: 
+ * ```
+const api = new API({
+    devId: "your devId",
+    authKey: "your authKey",
+    languageId: 1, // optional
+});
+* ```
+*/
 export class API {
     private serviceUrl: string = 'https://api.paladins.com/paladinsapi.svc';
     private sessionCache: { [key: string]: any; } = {};
@@ -21,11 +34,13 @@ export class API {
     /**
      * Get the number of requests made and requests left from your 
      * data usage this method initially makes a `getDataUsage` call to 
-     * paladins API internally to know your initial request count
+     * Paladins API internally to know your initial request count.
+     * 
+     * Subsequent calls of this method will not call Paladins API
      */
     public async getRequestsInfo(): Promise<ApiResponse.GetRequestsInfo> {
         if (this.totalRequestsMade === null || this.totalRequests === null) {
-            // get data usage from paladins API
+            // get data usage from Paladins API
             const response = await this.getDataUsage();
 
             this.totalRequestsMade = response.Total_Requests_Today;
@@ -44,13 +59,28 @@ export class API {
      * 
      * `date` in YYYYMMDD format eg. 20210207
      * 
-     * `hour` in 24H format 0-23 eg. 4 or 12 or 23
+     * `hour` in H or H,MM format.H Determines the hour of the day of matches 
+     * should be 0-23. If -1 is provided, it will return data for entire day.
+     * It also supports 10 minute window for getting granular data, using the MM in the format.
+     * MM should only be 00, 10, 20, 30, 40 or 50 
+     * 
+     * Using MM should not be provided when H = -1, or API could return non-sense data   
+     * 
+     * example:
+     * 
+     * `hour` = "2" will return data for matches held from 2:00 to 2:59
+     * 
+     * `hour` = "2,20" will return data for matches held from 2:20 to 2:29
+     * 
+     * `hour` = "23,50" will return data for matches held from 23:50 to 23:59
+     * 
+     * `queueId` provided should be an from {@link Enums.Queue} 
      */
-    public async getMatchIdsByQueue(hour: string, date: string, queue: number) {
+    public async getMatchIdsByQueue(hour: string, date: string, queueId: Enums.Queue) {
         const session = await this.getSession();
-        const url = `${this.serviceUrl}/getmatchidsbyqueueJson/${this.options['devId']}/${this.getSignature('getmatchidsbyqueue')}/${session}/${this.getTimestamp()}/${queue}/${date}/${hour}`;
+        const url = `${this.serviceUrl}/getmatchidsbyqueueJson/${this.options['devId']}/${this.getSignature('getmatchidsbyqueue')}/${session}/${this.getTimestamp()}/${queueId}/${date}/${hour}`;
 
-        const { data } = await axios.get<ApiResponse.GetMatchIDSByQueue>(url);
+        const { data } = await axios.get<ApiResponse.GetMatchIdsByQueue>(url);
         if (this.totalRequestsMade) this.totalRequestsMade++;
 
         return data;
@@ -97,10 +127,6 @@ export class API {
 
     /**
      * Get player information for a batch of players.
-     *
-     * @param {number[]} playerIds
-     * @returns {Promise<ApiResponse.GetPlayerBatch>}
-     * @memberof API
      */
     public getPlayerBatch(playerIds: number[]) {
         return this.endpoint<ApiResponse.GetPlayerBatch>('getplayerbatch', [playerIds.join(',')]);
@@ -108,21 +134,13 @@ export class API {
 
     /**
      * Get all the relationships for the requested player, includes both blocked and friends.
-     *
-     * @param {number} playerId
-     * @returns {Promise<ApiResponse.GetPlayerRelationships>}
-     * @memberof API
      */
     public getPlayerRelationships(playerId: number) {
         return this.endpoint<ApiResponse.GetPlayerRelationships>('getfriends', [playerId]);
     }
 
     /**
-     * Get all the champion ranks for the requested player.
-     *
-     * @param {number} playerId
-     * @returns {Promise<ApiResponse.GetPlayerChampionRanks>}
-     * @memberof API
+     * Get all the champion stats for the requested player.
      */
     public getPlayerChampionRanks(playerId: number) {
         return this.endpoint<ApiResponse.GetPlayerChampionRanks>('getchampionranks', [playerId]);
@@ -130,10 +148,6 @@ export class API {
 
     /**
      * Get all the champion loadouts for the requested player.
-     *
-     * @param {number} playerId
-     * @returns {Promise<ApiResponse.GetPlayerLoadouts>}
-     * @memberof API
      */
     public getPlayerLoadouts(playerId: number) {
         return this.endpoint<ApiResponse.GetPlayerLoadouts>('getplayerloadouts', [playerId, this.options['languageId']]);
@@ -141,10 +155,6 @@ export class API {
 
     /**
      * Get the current status of the player.
-     *
-     * @param {number} playerId
-     * @returns {Promise<ApiResponse.GetPlayerStatus>}
-     * @memberof API
      */
     public getPlayerStatus(playerId: number): Promise<ApiResponse.GetPlayerStatus> {
         return this.endpoint<ApiResponse.GetPlayerStatus>('getplayerstatus', [playerId], true);
@@ -152,10 +162,6 @@ export class API {
 
     /**
      * Get the match history of the requested player.
-     *
-     * @param {number} playerId
-     * @returns {Promise<ApiResponse.GetPlayerMatchHistory>}
-     * @memberof API
      */
     public getPlayerMatchHistory(playerId: number): Promise<ApiResponse.GetPlayerMatchHistory> {
         return this.endpoint<ApiResponse.GetPlayerMatchHistory>('getmatchhistory', [playerId]);
@@ -163,13 +169,23 @@ export class API {
 
     /**
      * Get the queue stats of a player.
+     * 
+     * `queueId` provided should be an from {@link Enums.Queue}
      */
-    public getPlayerQueueStats(playerId: number, queueId: number) {
+    public getPlayerQueueStats(playerId: number, queueId: Enums.Queue) {
         return this.endpoint<ApiResponse.GetPlayerQueueStats>('getqueuestats', [playerId, null, null, null, queueId]);
     }
 
     /**
-     * Get details of multiple matches
+     * Get match details from multiple ended matches.
+     * 
+     * Works in a similar way to `getMatchDetails`
+     * Returns the matches in the form of a list of players
+     * with their match stats. The list can have a max length of `10 * matchIds`.
+     * 
+     * __NOTE__: ids of cards, talents returned by this api
+     * are obtained from `getItems` api instead of 
+     * `getChampionCards` api
      */
     public async getMatchDetailsBatch(matchIds: number[]): Promise<ApiResponse.GetMatchDetailsBatch> {
         return this.endpoint<ApiResponse.GetMatchDetailsBatch>('getmatchdetailsbatch', [matchIds.join(',')]);
@@ -178,7 +194,10 @@ export class API {
     /**
      * Get match details from an ended match.
      * 
-     * NOTE: ids of cards, talents returned by this api
+     * Returns the match in the form of a list of players
+     * with their match stats. The list can have a max length of 10.
+     * 
+     * __NOTE__: ids of cards, talents returned by this api
      * are obtained from `getItems` api instead of 
      * `getChampionCards` api
      */
@@ -188,6 +207,8 @@ export class API {
 
     /**
      * Get basic info for a live, active match.
+     * 
+     * __NOTE__: If a match is not live, it will return error in `ret_msg`
      */
     public getActiveMatchDetails(matchId: number) {
         return this.endpoint<ApiResponse.GetActiveMatchDetails>('getmatchplayerdetails', [null, null, matchId]);
@@ -202,6 +223,8 @@ export class API {
 
     /**
      * Get the current data usage.
+     * 
+     * Usage of this method will count towards your API usage quota
      */
     public async getDataUsage(): Promise<ApiResponse.GetDataUsage> {
         const data: ApiResponse.GetDataUsage | ApiResponse.GetDataUsage[] = await this.endpoint('getdataused', [], true);
