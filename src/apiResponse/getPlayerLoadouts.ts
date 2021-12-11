@@ -1,3 +1,5 @@
+import { Champions } from '../enums';
+
 interface LoadoutItem {
   ItemId: number;
   ItemName: string;
@@ -5,7 +7,7 @@ interface LoadoutItem {
 }
 
 interface PlayerLoadout {
-  ChampionId: number;
+  ChampionId: Champions;
   ChampionName: string;
   DeckId: number;
   DeckName: string;

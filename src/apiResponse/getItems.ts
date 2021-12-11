@@ -1,4 +1,4 @@
-import { ItemType } from '../enums';
+import { Champions, ItemType } from '../enums';
 
 interface Item {
   Description: string;
@@ -7,7 +7,7 @@ interface Item {
   ItemId: number;
   Price: number;
   ShortDesc: string;
-  champion_id: number;
+  champion_id: Champions;
   itemIcon_URL: string;
   item_type: ItemType;
   recharge_seconds: number;

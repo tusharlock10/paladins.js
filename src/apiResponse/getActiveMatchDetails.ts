@@ -1,9 +1,9 @@
-import { Portals, Queue, Ranks } from '../enums';
+import { Champions, Portals, Queue, Ranks } from '../enums';
 
 interface ActiveMatchDetail {
   Account_Champions_Played: number;
   Account_Level: number;
-  ChampionId: number;
+  ChampionId: Champions;
   ChampionLevel: number;
   ChampionName: string;
   Mastery_Level: number;
@@ -16,7 +16,7 @@ interface ActiveMatchDetail {
   playerCreated?: string;
   playerId: number;
   playerName: string;
-  playerPortalId: Portals;
+  playerPortalId: Portals | null;
   playerPortalUserId: string | null;
   playerRegion?: string;
   ret_msg: string;

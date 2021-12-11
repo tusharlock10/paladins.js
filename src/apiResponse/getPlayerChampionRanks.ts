@@ -1,3 +1,5 @@
+import { Champions } from '../enums';
+
 interface PlayerChampionRank {
   Assists: number;
   Deaths: number;
@@ -11,7 +13,7 @@ interface PlayerChampionRank {
   Wins: number;
   Worshippers: number;
   champion: string;
-  champion_id: string;
+  champion_id: Champions;
   player_id: string;
   ret_msg: string | null;
 }

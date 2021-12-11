@@ -1,11 +1,11 @@
-import { ActiveFlag, SaleType } from '../enums';
+import { ActiveFlag, Champions, SaleType } from '../enums';
 
 interface BountyItem {
   active: ActiveFlag;
   bounty_item_id1: number;
   bounty_item_id2: number;
   bounty_item_name: string;
-  champion_id: number;
+  champion_id: Champions;
   champion_name: string;
   final_price: string;
   initial_price: string;

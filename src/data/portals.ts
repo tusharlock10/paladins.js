@@ -1,7 +1,7 @@
 import * as Enums from "../enums";
 import * as Strings from "../strings";
 
-type PortalsType = Partial<Record<Enums.Portals, Strings.Portals>>;
+type PortalsType = Record<Enums.Portals, Strings.Portals>;
 
 export const Portals: PortalsType = {
   0: "Unknown",

@@ -1,7 +1,9 @@
+import { Champions } from '../enums';
+
 interface PlayerQueueStat {
   Assists: number;
   Champion: string;
-  ChampionId: number;
+  ChampionId: Champions;
   Deaths: number;
   Gold: number;
   Kills: number;

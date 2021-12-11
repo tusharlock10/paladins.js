@@ -1,7 +1,7 @@
 import * as Enums from "../enums";
 import * as Strings from "../strings";
 
-type QueueType = Partial<Record<Enums.Queue, Strings.Queue>>;
+type QueueType = Record<Enums.Queue, Strings.Queue>;
 
 export const Queue: QueueType = {
   0: "Unknown",
