@@ -1,6 +1,5 @@
-/** @ignore */ /** */
 export { API } from "./api";
-export * as ApiResponse from "./util/apiResponse";
-export * as Data from "./util/data";
-export * as Enums from "./util/enumerations";
-export * as Strings from "./util/strings";
+export * as ApiResponse from "./apiResponse";
+export * as Data from "./data";
+export * as Enums from "./enums";
+export * as Strings from "./strings";

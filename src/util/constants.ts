@@ -1,1 +1,0 @@
-export interface IOptions { devId: string; authKey: string; languageId?: number; }

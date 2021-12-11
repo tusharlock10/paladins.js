@@ -1,0 +1,1 @@
+export type ChampionRole = "Damage" | "Flank" | "Support" | "Tank";
