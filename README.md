@@ -14,6 +14,9 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v3.2.2
+- Updated `Data`, `Enums`, `Strings` for champion `VII`
+
 ### v3.2.1
 - *BREAKING CHANGE*: renamed `GetMatchIDSByQueue` ApiResponse interface to `GetMatchIdsByQueue`
 - *BREAKING CHANGE*: renamed `Data` objects from capital to pascal case and changed keys from strings to enums
