@@ -46,6 +46,7 @@ export enum Champions {
   Vatu = 2541,
   Viktor = 2285,
   Vivian = 2480,
+  VII = 2549,
   Vora = 2536,
   Willo = 2393,
   Yagorath = 2538,

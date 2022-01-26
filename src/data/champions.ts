@@ -51,6 +51,7 @@ export const Champions: ChampionsType = {
   2541: "Vatu",
   2285: "Viktor",
   2480: "Vivian",
+  2549: "VII",
   2536: "Vora",
   2393: "Willo",
   2538: "Yagorath",

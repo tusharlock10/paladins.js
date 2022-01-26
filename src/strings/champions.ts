@@ -46,6 +46,7 @@ export type Champions =
   | "Vatu"
   | "Viktor"
   | "Vivian"
+  | "VII"
   | "Vora"
   | "Willo"
   | "Yagorath"
