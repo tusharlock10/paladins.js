@@ -11,4 +11,5 @@ export * from './rarity';
 export * from './relationStatus';
 export * from './roles';
 export * from './saleType';
+export * from './taskForce';
 export * from './winStatus';

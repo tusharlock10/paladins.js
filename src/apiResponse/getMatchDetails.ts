@@ -4,6 +4,7 @@ import {
   Portals,
   Queue,
   Ranks,
+  TaskForce,
   WinStatus
 } from '../enums';
 
@@ -114,16 +115,16 @@ interface MatchPlayerDetail {
   SkinId: number;
   Structure_Damage: number;
   Surrendered: number;
-  TaskForce: number;
+  TaskForce: TaskForce;
   Team1Score: number;
   Team2Score: number;
-  TeamId: number;
+  TeamId: 0;
   Team_Name: string;
   Time_In_Match_Seconds: number;
   Towers_Destroyed: number;
   Wards_Placed: number;
   Win_Status: WinStatus;
-  Winning_TaskForce: number;
+  Winning_TaskForce: TaskForce;
   hasReplay: ActiveFlag;
   hz_gamer_tag: null;
   hz_player_name: null;

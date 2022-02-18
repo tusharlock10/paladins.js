@@ -1,4 +1,4 @@
-import { Queue, WinStatus } from '../enums';
+import { Champions, Queue, TaskForce, WinStatus } from '../enums';
 
 interface PlayerMatchHistory {
   ActiveId1: number;
@@ -15,7 +15,7 @@ interface PlayerMatchHistory {
   Active_4: string;
   Assists: number;
   Champion: string;
-  ChampionId: number;
+  ChampionId: Champions;
   Creeps: number;
   Damage: number;
   Damage_Bot: number;
@@ -64,13 +64,13 @@ interface PlayerMatchHistory {
   Skin: string;
   SkinId: number;
   Surrendered: number;
-  TaskForce: number;
+  TaskForce: TaskForce;
   Team1Score: number;
   Team2Score: number;
   Time_In_Match_Seconds: number;
   Wards_Placed: number;
   Win_Status: WinStatus;
-  Winning_TaskForce: number;
+  Winning_TaskForce: TaskForce;
   playerId: number;
   playerName: string;
   ret_msg: string | null;
