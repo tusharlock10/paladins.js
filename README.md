@@ -14,8 +14,10 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
-### v3.2.2
+### v3.2.3
 - Updated `Data`, `Enums`, `Strings` for champion `VII`
+- Updated enums for `getMatchDetails`, `getPlayerMatchHistory`
+- Added `TaskForce` to `Enums`
 
 ### v3.2.1
 - *BREAKING CHANGE*: renamed `GetMatchIDSByQueue` ApiResponse interface to `GetMatchIdsByQueue`

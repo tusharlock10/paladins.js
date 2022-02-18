@@ -96,14 +96,14 @@ export class API {
     /**
      * Get the cards for the requested champion.
      */
-    public getChampionCards(championId: number) {
+    public getChampionCards(championId: Enums.Champions) {
         return this.endpoint<ApiResponse.GetChampionCards>('getchampioncards', [null, this.options['languageId'], null, championId]);
     }
 
     /**
      * Get all the skins associated with the champion.
      */
-    public getChampionSkins(championId: number) {
+    public getChampionSkins(championId: Enums.Champions) {
         return this.endpoint<ApiResponse.GetChampionSkins>('getchampionskins', [null, this.options['languageId'], null, championId]);
     }
 
