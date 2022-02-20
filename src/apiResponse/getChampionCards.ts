@@ -1,4 +1,4 @@
-import { ActiveFlag, Rarity } from '../enums';
+import { ActiveFlag, Champions, Rarity } from '../enums';
 
 interface ChampionCard {
   active_flag_activation_schedule: ActiveFlag;
@@ -11,7 +11,7 @@ interface ChampionCard {
   championCard_URL: string;
   championIcon_URL: string;
   championTalent_URL: string | null;
-  champion_id: ChampionCard;
+  champion_id: Champions;
   champion_name: string;
   exclusive: ActiveFlag;
   rank: number;
