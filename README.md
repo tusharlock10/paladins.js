@@ -14,6 +14,9 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v3.2.5
+- Added Siege: Beyond queue in `Enums`, `Strings` and `Data`
+
 ### v3.2.4
 - Updated `Data`, `Enums`, `Strings` for champion `VII`
 - Updated enums for `getMatchDetails`, `getPlayerMatchHistory`
