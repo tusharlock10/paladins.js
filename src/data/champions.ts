@@ -9,6 +9,7 @@ export const Champions: ChampionsType = {
   2512: "Atlas",
   2548: "Azaan",
   2073: "Barik",
+  2550: "BettyLaBomba",
   2281: "BombKing",
   2147: "Buck",
   2092: "Cassie",

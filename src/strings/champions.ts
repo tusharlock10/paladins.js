@@ -4,6 +4,7 @@ export type Champions =
   | "Atlas"
   | "Azaan"
   | "Barik"
+  | "BettyLaBomba"
   | "BombKing"
   | "Buck"
   | "Cassie"

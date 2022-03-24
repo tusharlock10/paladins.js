@@ -4,6 +4,7 @@ export enum Champions {
   Atlas = 2512,
   Azaan = 2548,
   Barik = 2073,
+  BettyLaBomba = 2550,
   BombKing = 2281,
   Buck = 2147,
   Cassie = 2092,
