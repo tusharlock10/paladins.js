@@ -1,3 +1,6 @@
+# v3.2.7
+- Updated readme
+
 # v3.2.6
 - Added support for `Betty la Bomba`
 
@@ -10,4 +13,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.2.6)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.2.7)

@@ -8,11 +8,12 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 - Well maintained and up-to-date library
 - All of the methods have the exact response type
-- Updated champion enums to include `Azaan` as per `Absolution` patch
-- Does not rely on any Node specific libraries like `fs` or `path`
-
+- Updated champion enums to include `Betty la Bomba` as per `Monstercat` patch
 
 ## Changelog
+
+### v3.2.7
+- Updated readme
 
 ### v3.2.6
 - Added support for `Betty la Bomba`
