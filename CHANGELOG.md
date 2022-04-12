@@ -1,4 +1,4 @@
-# v3.2.7
+# v3.2.8
 - Updated readme
 
 # v3.2.6
@@ -13,4 +13,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.2.7)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.2.8)
