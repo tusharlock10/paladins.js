@@ -17,7 +17,7 @@ export const testData = {
   getPlayerMatchHistory: 718389146,
   getPlayerQueueStats: [718389146, Enums.Queue.Onslaught] as [number, Enums.Queue],
   getMatchModeDetailsBatch: [1128400064],
-  getMatchDetails: 1150510655,
+  getMatchDetails: 1161841732,
   getActiveMatchDetails: 1128406071,
   searchPlayers: "tusharlock10",
 };
