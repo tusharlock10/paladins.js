@@ -30,6 +30,7 @@ export const Champions: ChampionsType = {
   2493: "Koga",
   2362: "Lex",
   2417: "Lian",
+  2551: 'Lillith',
   2338: "Maeve",
   2288: "Makoa",
   2303: "MalDamba",

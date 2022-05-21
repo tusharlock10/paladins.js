@@ -1,3 +1,6 @@
+# v3.2.9
+- Added support for `Lillith`
+
 # v3.2.8
 - Updated readme
 
@@ -13,4 +16,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.2.8)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.2.9)

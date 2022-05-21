@@ -25,6 +25,7 @@ export enum Champions {
   Koga = 2493,
   Lex = 2362,
   Lian = 2417,
+  Lillith = 2551,
   Maeve = 2338,
   Makoa = 2288,
   MalDamba = 2303,

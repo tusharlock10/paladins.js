@@ -12,6 +12,9 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v3.2.9
+- Added support for `Lillith`
+
 ### v3.2.8
 - Updated readme
 
