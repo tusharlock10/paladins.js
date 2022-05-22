@@ -25,6 +25,7 @@ export type Champions =
   | "Koga"
   | "Lex"
   | "Lian"
+  | "Lillith"
   | "Maeve"
   | "Makoa"
   | "MalDamba"
