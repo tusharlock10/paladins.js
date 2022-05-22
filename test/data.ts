@@ -1,8 +1,11 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utcPlugin from 'dayjs/plugin/utc';
 import { Enums } from '../src/paladins';
 
-const date = moment.utc().format("YYYYMMDD");
-const hour = moment.utc().format("H");
+dayjs.extend(utcPlugin);
+
+const date = dayjs.utc().format("YYYYMMDD");
+const hour = dayjs.utc().format("H");
 
 export const testData = {
   getChampionCards: 2548,

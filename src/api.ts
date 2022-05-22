@@ -1,8 +1,11 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
+import utcPlugin from 'dayjs/plugin/utc';
 import md5 from 'md5';
-import moment from 'moment';
 import * as ApiResponse from './apiResponse';
 import { Enums } from './paladins';
+
+dayjs.extend(utcPlugin);
 
 /**
  * API class for using Paladins APIs
@@ -269,7 +272,7 @@ export class API {
 
 
     private getTimestamp() {
-        return moment().utc().format('YYYYMMDDHHmmss');
+        return dayjs.utc().format('YYYYMMDDHHmmss');
     }
 
 
