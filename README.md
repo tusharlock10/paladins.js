@@ -12,9 +12,12 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v3.3.1
+- Added `getDevId` method
+
 ### v3.3.0
 - Added support for `Lillith`
-- - Upgrade dependencies
+- Upgrade dependencies
 - Replaced `moment` library with `dayjs`
 
 ### v3.2.8

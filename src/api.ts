@@ -35,6 +35,13 @@ export class API {
     }
 
     /**
+     * Get the devId being used in this api
+     */
+    public getDevId(): string {
+        return this.options.devId;
+    }
+
+    /**
      * Get the number of requests made and requests left from your 
      * data usage this method initially makes a `getDataUsage` call to 
      * Paladins API internally to know your initial request count.
