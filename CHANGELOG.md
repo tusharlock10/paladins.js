@@ -1,5 +1,6 @@
-# v3.3.1
+# v3.3.2
 - Added `getDevId` method
+- Added forceRefresh param in `getRequestsInfo`
 
 # v3.3.0
 - Added support for `Lillith`
@@ -21,4 +22,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.3.1)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.3.2)
