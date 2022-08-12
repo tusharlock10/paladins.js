@@ -12,8 +12,9 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
-### v3.3.1
+### v3.3.2
 - Added `getDevId` method
+- Added forceRefresh param in `getRequestsInfo`
 
 ### v3.3.0
 - Added support for `Lillith`

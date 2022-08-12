@@ -48,8 +48,8 @@ export class API {
      * 
      * Subsequent calls of this method will not call Paladins API
      */
-    public async getRequestsInfo(): Promise<ApiResponse.GetRequestsInfo> {
-        if (this.totalRequestsMade === null || this.totalRequests === null) {
+    public async getRequestsInfo(forceRefresh = false): Promise<ApiResponse.GetRequestsInfo> {
+        if (this.totalRequestsMade === null || this.totalRequests === null || forceRefresh) {
             // get data usage from Paladins API
             const response = await this.getDataUsage();
 
