@@ -1,3 +1,6 @@
+# v3.3.3
+- Added support for `Caspian`
+  
 # v3.3.2
 - Added `getDevId` method
 - Added forceRefresh param in `getRequestsInfo`
@@ -22,4 +25,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.3.2)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.3.3)

@@ -7,6 +7,7 @@ export type Champions =
   | "BettyLaBomba"
   | "BombKing"
   | "Buck"
+  | "Caspian"
   | "Cassie"
   | "Corvus"
   | "Dredge"
