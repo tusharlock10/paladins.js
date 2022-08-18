@@ -7,6 +7,7 @@ export enum Champions {
   BettyLaBomba = 2550,
   BombKing = 2281,
   Buck = 2147,
+  Caspian = 2554,
   Cassie = 2092,
   Corvus = 2533,
   Dredge = 2495,

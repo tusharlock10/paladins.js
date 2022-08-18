@@ -12,6 +12,7 @@ export const Champions: ChampionsType = {
   2550: "BettyLaBomba",
   2281: "BombKing",
   2147: "Buck",
+  2554: "Caspian",
   2092: "Cassie",
   2533: "Corvus",
   2495: "Dredge",
