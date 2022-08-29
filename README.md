@@ -12,6 +12,9 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v3.3.4
+- Added `Region` in `getMatchIdsByQueue` api response
+
 ### v3.3.3
 - Added support for `Caspian`
 
