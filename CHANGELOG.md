@@ -1,3 +1,6 @@
+# v3.3.4
+- Added `Region` in `getMatchIdsByQueue` api response
+  
 # v3.3.3
 - Added support for `Caspian`
   
@@ -25,4 +28,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.3.3)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.3.4)
