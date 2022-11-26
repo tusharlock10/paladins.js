@@ -1,3 +1,7 @@
+# v3.4.0
+- Added support for `Kasumi`
+- Added support for `Choose Any`
+
 # v3.3.4
 - Added `Region` in `getMatchIdsByQueue` api response
   
@@ -28,4 +32,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.3.4)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.4.0)

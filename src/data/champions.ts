@@ -26,6 +26,7 @@ export const Champions: ChampionsType = {
   2348: "Inara",
   2517: "Io",
   2431: "Jenos",
+  2555: "Kasumi",
   2479: "Khan",
   2249: "Kinessa",
   2493: "Koga",

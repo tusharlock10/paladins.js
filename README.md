@@ -12,6 +12,10 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v3.4.0
+- Added support for `Kasumi`
+- Added support for `Choose Any`
+
 ### v3.3.4
 - Added `Region` in `getMatchIdsByQueue` api response
 

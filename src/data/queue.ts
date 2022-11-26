@@ -15,5 +15,6 @@ export const Queue: QueueType = {
   470: "Training Team Deathmatch",
   453: "Training Onslaught",
   445: "Test Maps",
-  10260: "Siege: Beyond",
+  10296: "Choose Any",
+  10297: "Training Choose Any",
 };

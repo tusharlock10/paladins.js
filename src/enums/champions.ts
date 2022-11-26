@@ -21,6 +21,7 @@ export enum Champions {
   Inara = 2348,
   Io = 2517,
   Jenos = 2431,
+  Kasumi = 2555,
   Khan = 2479,
   Kinessa = 2249,
   Koga = 2493,

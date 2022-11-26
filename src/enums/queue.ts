@@ -10,5 +10,6 @@ export enum Queue {
   Training_Team_Deathmatch = 470,
   Training_Onslaught = 453,
   Test_Maps = 445,
-  Siege_Beyond = 10260,
+  Choose_Any = 10296,
+  Training_Choose_Any = 10297,
 }
