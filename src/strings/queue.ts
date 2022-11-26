@@ -10,4 +10,5 @@ export type Queue =
   | "Training Team Deathmatch"
   | "Training Onslaught"
   | "Test Maps"
-  | "Siege: Beyond";
+  | "Choose Any"
+  | "Training Choose Any";

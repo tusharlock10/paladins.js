@@ -21,6 +21,7 @@ export type Champions =
   | "Inara"
   | "Io"
   | "Jenos"
+  | "Kasumi"
   | "Khan"
   | "Kinessa"
   | "Koga"
