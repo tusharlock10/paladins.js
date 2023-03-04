@@ -12,6 +12,9 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v3.5.0
+- Added support for `Nyx`
+
 ### v3.4.0
 - Added support for `Kasumi`
 - Added support for `Choose Any`

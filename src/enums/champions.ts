@@ -32,6 +32,7 @@ export enum Champions {
   Makoa = 2288,
   MalDamba = 2303,
   Moji = 2481,
+  Nyx = 2560,
   Octavia = 2540,
   Pip = 2056,
   Raum = 2528,

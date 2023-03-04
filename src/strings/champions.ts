@@ -32,6 +32,7 @@ export type Champions =
   | "Makoa"
   | "MalDamba"
   | "Moji"
+  | "Nyx"
   | "Octavia"
   | "Pip"
   | "Raum"

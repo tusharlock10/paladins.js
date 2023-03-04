@@ -1,3 +1,6 @@
+# v3.5.0
+- Added support for `Nyx`
+  
 # v3.4.0
 - Added support for `Kasumi`
 - Added support for `Choose Any`
@@ -32,4 +35,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.4.0)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.5.0)
