@@ -37,6 +37,7 @@ export const Champions: ChampionsType = {
   2288: "Makoa",
   2303: "MalDamba",
   2481: "Moji",
+  2560: "Nyx",
   2540: "Octavia",
   2056: "Pip",
   2528: "Raum",
