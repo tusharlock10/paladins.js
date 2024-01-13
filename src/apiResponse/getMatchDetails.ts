@@ -32,12 +32,16 @@ interface MatchPlayerDetail {
   BanId4: Champions,
   BanId5: Champions,
   BanId6: Champions,
+  BanId7: Champions,
+  BanId8: Champions,
   Ban_1: string,
   Ban_2: string,
   Ban_3: string,
   Ban_4: string,
   Ban_5: string,
   Ban_6: string,
+  Ban_7: string,
+  Ban_8: string,
   Camps_Cleared: number;
   ChampionId: Champions;
   Damage_Bot: number;

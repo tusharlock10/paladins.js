@@ -34,6 +34,7 @@ export type Champions =
   | "Moji"
   | "Nyx"
   | "Octavia"
+  | "Omen"
   | "Pip"
   | "Raum"
   | "Rei"

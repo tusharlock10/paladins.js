@@ -10,7 +10,7 @@ const hour = dayjs.utc().format("H");
 export const testData = {
   getChampionCards: 2548,
   getPlayerChampionRanks: 718389146,
-  getMatchIdsByQueue: [hour, date, Enums.Queue.Ranked_Keyboard] as [string, string, Enums.Queue],
+  getMatchIdsByQueue: [hour, date, Enums.Queue.Ranked] as [string, string, Enums.Queue],
   getChampionSkins: Enums.Champions.Androxus,
   getPlayer: 718389146,
   getPlayerBatch: [507294712, 717323258, 12141128],
