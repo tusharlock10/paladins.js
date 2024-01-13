@@ -1,4 +1,4 @@
-# v3.6.0
+# v3.6.1
 - Added support for `Omen`
 - Added Bans 7,8 in match details
 - Removed `Ranked Controller`
@@ -41,4 +41,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.5.0)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/3.6.1)
