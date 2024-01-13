@@ -1,3 +1,9 @@
+# v3.6.0
+- Added support for `Omen`
+- Added Bans 7,8 in match details
+- Removed `Ranked Controller`
+- Renamed `Ranked Keyboard` to `Ranked`
+
 # v3.5.0
 - Added support for `Nyx`
   

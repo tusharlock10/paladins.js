@@ -34,6 +34,7 @@ export enum Champions {
   Moji = 2481,
   Nyx = 2560,
   Octavia = 2540,
+  Omen = 2566,
   Pip = 2056,
   Raum = 2528,
   Rei = 2542,
