@@ -97,6 +97,16 @@ describe('Tests for pe-paladins.js apis', () => {
     expect(response).to.be.a("array");
     expect(response).to.not.have.length.lessThanOrEqual(0);
   });
+  it("Test getPlayerQueueStatsBatch", async () => {
+    const response = await api.getPlayerQueueStatsBatch(...testData.getPlayerQueueStatsBatch);
+    expect(response).to.be.a("array");
+    expect(response).to.not.have.length.lessThanOrEqual(0);
+  });
+  it("Test getLeaderboard", async () => {
+    const response = await api.getLeaderboard(testData.getLeaderboard);
+    expect(response).to.be.a("array");
+    expect(response).to.not.have.length.lessThanOrEqual(0);
+  });
   it("Test getMatchDetailsBatch", async () => {
     const response = await api.getMatchDetailsBatch(testData.getMatchModeDetailsBatch);
     expect(response).to.be.a("array");
@@ -111,11 +121,6 @@ describe('Tests for pe-paladins.js apis', () => {
     expect(response).to.be.a("array");
     expect(response).to.not.have.length.lessThanOrEqual(0);
   });
-  it("Test getBountyItems", async () => {
-    const response = await api.getBountyItems();
-    expect(response).to.be.a("array");
-    expect(response).to.not.have.length.lessThanOrEqual(0);
-  });
   it("Test searchPlayers", async () => {
     const response = await api.searchPlayers(testData.searchPlayers);
     expect(response).to.be.a("array");
@@ -125,6 +130,6 @@ describe('Tests for pe-paladins.js apis', () => {
     const response = await api.getRequestsInfo();
     expect(response.requestsLeft).to.be.a("number");
     expect(response.requestsMade).to.be.a("number");
-    expect(response.requestsMade).to.be.equal(requestsMadeInitially + 18);
+    expect(response.requestsMade).to.be.equal(requestsMadeInitially + 19);
   });
 });

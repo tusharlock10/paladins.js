@@ -19,6 +19,8 @@ export const testData = {
   getPlayerStatus: 718389146,
   getPlayerMatchHistory: 718389146,
   getPlayerQueueStats: [718389146, Enums.Queue.Onslaught] as [number, Enums.Queue],
+  getPlayerQueueStatsBatch: [718389146, [Enums.Queue.Onslaught, Enums.Queue.Ranked]] as [number, Enums.Queue[]],
+  getLeaderboard: Enums.Ranks.Master,
   getMatchModeDetailsBatch: [1128400064],
   getMatchDetails: 1243066928,
   getActiveMatchDetails: 1128406071,

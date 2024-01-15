@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import utcPlugin from 'dayjs/plugin/utc';
 import md5 from 'md5';
 import * as ApiResponse from './apiResponse';
+import { Queue } from './enums';
 import { Enums } from './paladins';
 
 dayjs.extend(utcPlugin);
@@ -187,6 +188,26 @@ export class API {
     }
 
     /**
+     * Get the queue stats of a player in batch.
+     * 
+     * `queueIds` provided should be an from {@link Enums.Queue}
+     */
+    public getPlayerQueueStatsBatch(playerId: number, queueIds: Enums.Queue[]) {
+        return this.endpoint<ApiResponse.GetPlayerQueueStats>('getqueuestatsbatch', [playerId, null, null, null, queueIds.join(',')]);
+    }
+
+    /**
+     * Get the in-game ranked leaderboard for a specific rank
+     * 
+     * `rank` provided should be an from {@link Enums.Ranks}
+     * `round` is default to 1
+     */
+    public getLeaderboard(rank: Enums.Ranks, round = 1) {
+        const queue = Queue.Ranked;
+        return this.endpoint<ApiResponse.GetPlayerQueueStats>('getleagueleaderboard', [null, null, null, null, queue, rank, null, null, round]);
+    }
+
+    /**
      * Get match details from multiple ended matches.
      * 
      * Works in a similar way to `getMatchDetails`
@@ -222,13 +243,6 @@ export class API {
      */
     public getActiveMatchDetails(matchId: number) {
         return this.endpoint<ApiResponse.GetActiveMatchDetails>('getmatchplayerdetails', [null, null, matchId]);
-    }
-
-    /**
-     * Get all the current bounty store info.
-     */
-    public getBountyItems() {
-        return this.endpoint<ApiResponse.GetBountyItems>('getbountyitems', [], false);
     }
 
     /**
@@ -316,7 +330,7 @@ export class API {
     }
 
 
-    private async buildUrl(method: string, player?: any, lang?: number, matchId?: number, champId?: number, queue?: number, tier?: number, season?: number, platform?: number) {
+    private async buildUrl(method: string, player?: number, lang?: number, matchId?: number, champId?: number, queue?: number, tier?: number, season?: number, platform?: number, round?: number) {
         let session = await this.getSession();
         let baseUrl = `${this.serviceUrl}/${method}Json/${this.options['devId']}/${this.getSignature(method)}/${session}/${this.getTimestamp()}`;
 
@@ -328,6 +342,7 @@ export class API {
         if (queue) baseUrl += `/${queue}`;
         if (tier) baseUrl += `/${tier}`;
         if (season) baseUrl += `/${season}`;
+        if (round) baseUrl += `/${round}`;
 
         return baseUrl;
     }

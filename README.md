@@ -12,6 +12,14 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
+### v4.0.0
+- *BREAKING CHANGE*: Removed `getBountyItems` api
+- Added `getPlayerQueueStatsBatch` api
+- Added `getLeaderboard` api
+- Updated dependencies internally
+
+>__Reason__: Paladins bounty store has been closed, this changes removes the api from being used in the future
+
 ### v3.6.1
 - Added support for `Omen`
 - Added Bans 7,8 in match details
