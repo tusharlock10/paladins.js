@@ -16,6 +16,7 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 - *BREAKING CHANGE*: Removed `getBountyItems` api
 - Added `getPlayerQueueStatsBatch` api
 - Added `getLeaderboard` api
+- Updated dependencies internally
 
 >__Reason__: Paladins bounty store has been closed, this changes removes the api from being used in the future
 

@@ -2,6 +2,7 @@
 - *BREAKING CHANGE*: Removed `getBountyItems` api
 - Added `getPlayerQueueStatsBatch` api
 - Added `getLeaderboard` api
+- Updated dependencies internally
 
 # v3.6.1
 - Added support for `Omen`
