@@ -1,4 +1,4 @@
-# v4.0.0
+# v4.0.1
 - *BREAKING CHANGE*: Removed `getBountyItems` api
 - Added `getPlayerQueueStatsBatch` api
 - Added `getLeaderboard` api
@@ -47,4 +47,4 @@
 - Added `TaskForce` to `Enums`
 - Fixed `champion_id` type in `ChampionCard` 
 
-View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/4.0.0)
+View release on [npm](https://www.npmjs.com/package/pe-paladins.js/v/4.0.1)
