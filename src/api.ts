@@ -204,7 +204,7 @@ export class API {
      */
     public getLeaderboard(rank: Enums.Ranks, round = 1) {
         const queue = Queue.Ranked;
-        return this.endpoint<ApiResponse.GetPlayerQueueStats>('getleagueleaderboard', [null, null, null, null, queue, rank, null, null, round]);
+        return this.endpoint<ApiResponse.GetLeaderboard>('getleagueleaderboard', [null, null, null, null, queue, rank, null, null, round]);
     }
 
     /**

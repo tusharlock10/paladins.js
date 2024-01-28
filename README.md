@@ -12,7 +12,7 @@ A strongly typed fork of [paladins.js](https://www.npmjs.com/package/paladins.js
 
 ## Changelog
 
-### v4.0.0
+### v4.0.1
 - *BREAKING CHANGE*: Removed `getBountyItems` api
 - Added `getPlayerQueueStatsBatch` api
 - Added `getLeaderboard` api
